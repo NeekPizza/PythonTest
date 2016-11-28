@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Quotes</title>
+  </head>
+  <body>
+    <p>
+      Welcome, {{first_name}} ! <a href='/logout'>Log Out</a>
+    </p>
+<br>
+  Your Favorites
+  {%for favorite in favorites%}
+  <p>
+    {{favorite.author}} : {{favorite.message}}
+    <br>
+    Posted by:<a href='/users/{{favorite.creator.id}}'>{{favorite.creator.first_name}}</a>
+    <a href='/remove/{{favorite.id}}'>Remove From My List</a>
+  </p>
+  {%endfor%}
+<br>
+  Quotable Quotes
+  {% for quote in quotes %}
+  <p>
+    {{quote.author}} : {{quote.message}}
+    <br>
+    Posted By:<a href='/users/{{quote.creator.id}}'>{{quote.creator.first_name}}</a>
+    <a href='/add/{{quote.id}}'>Add to My List</a>
+  </p>
+  {%endfor%}
+<br>
+  Contribute a Quote:
+    <form action='/add' method='post'>
+      {% csrf_token %}
+     <label>Quoted By:</label>
+     <input type='text' name='author'>
+     <br>
+     <label>Message:</label>
+     <textarea name='message',ROWS=20,Cols=20></textarea>
+     <br>
+     <input type='submit' value='submit'>
+    </form>
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+  </body>
+</html>
